@@ -22,6 +22,7 @@
         android:layout_below="@+id/textView_number"
         android:layout_marginRight="26dp"
         android:layout_toLeftOf="@+id/imageButton_call"
+        android:onClick="onNoteButtonClick"
         android:scaleType="fitXY"
         android:src="@drawable/voice_note" />
 
@@ -43,7 +44,7 @@
         android:layout_alignTop="@+id/imageButton_browse_voice"
         android:layout_marginRight="30dp"
         android:layout_toLeftOf="@+id/imageButton_browse_voice"
-        android:onClick="onPhotoNoteButtonClick"
+        android:onClick="onNoteButtonClick"
         android:scaleType="fitXY"
         android:src="@drawable/photo_note" />
 
@@ -54,6 +55,7 @@
         android:layout_alignTop="@+id/imageButton_browse_photo"
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/imageButton_browse_photo"
+        android:onClick="onNoteButtonClick"
         android:scaleType="fitXY"
         android:src="@drawable/txt_note" />
 

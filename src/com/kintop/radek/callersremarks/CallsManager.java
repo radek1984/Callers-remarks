@@ -19,8 +19,10 @@ public class CallsManager {
 		Cursor cur = ctx.getContentResolver().query(CallLog.Calls.CONTENT_URI,
 										new String[]{CallLog.Calls.NUMBER},
 										null, null, null);
-		if(cur == null)
+		if(cur == null || cur.getCount() <= 0)
+		{
 			return null;
+		}
 
 		Log.i("RRRRRR", " liczba numerow: " + cur.getCount() + " lcol " + cur.getColumnCount()
 		+ "col name: " + cur.getColumnName(cur.getColumnIndex(CallLog.Calls.NUMBER)));
