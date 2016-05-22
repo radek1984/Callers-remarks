@@ -22,7 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.net.Uri;
 
 public class MainActivity extends Activity {
 
@@ -36,12 +36,50 @@ public class MainActivity extends Activity {
 		callsList.setAdapter(cla);
 	}
 
+	private void handleAddNote(String num, ListItemButtonData.ButtonType type)
+	{
+		Intent intent = null;
+		switch(type)
+		{
+			case TXT_NOTE:
+				break;
+			case PHOTO_NOTE:
+				intent = new Intent(this, TakePhotoActivity.class);
+				intent.putExtra("number", num);
+				break;
+			case VOICE_NOTE:
+				break;
+			default:
+				return;
+		}
+		startActivity(intent);
+	}
+	
+	private void handleBrowseNotes(String num, ListItemButtonData.ButtonType type)
+	{
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		Uri uri = Uri.fromFile(Storage.getNumberDir(this, num));
+		
+		switch(type)
+		{
+			case TXT_NOTE:
+				intent.setData(uri);
+				//intent.setDataAndType(uri, "text/csv");
+				break;
+			case PHOTO_NOTE:
+				break;
+			case VOICE_NOTE:
+				break;
+		}
+		startActivity(Intent.createChooser(intent, ""));
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		callsList = (ListView)findViewById(R.id.callslList);
+		callsList = (ListView)findViewById(R.id.frame_layout_cam);
 
 		String[] nums = CallsManager.getCallers(getApplicationContext());
 
@@ -49,8 +87,17 @@ public class MainActivity extends Activity {
 			populateList(nums);
 		else
 			Toast.makeText(this, "Could not find any connections", Toast.LENGTH_LONG).show();
+		
+		//Storage.saveFile(this, "+48513289086","xxx.txt", new byte[]{(byte)123});
+		//Storage.listDir(this, "+48513289086");
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent)
+	{
+		super.onActivityResult(requestCode, resultCode, intent);
+	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -67,12 +114,14 @@ public class MainActivity extends Activity {
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		ListItemButtonData data = ((CallsListAdapter)callsList.getAdapter()).getCurrent_selection();
+		String dirNum = (String)callsList.getAdapter().getItem(data.listItemposition);
 	    Intent i = null;
 
 	    try
 	    {
 			if (item.getItemId() == CTX_MENU_ACTION_ADD)
-			{
+			{handleAddNote(dirNum, data.type);
+			/*
 				switch(data.type)
 				{
 					case TXT_NOTE:
@@ -83,8 +132,15 @@ public class MainActivity extends Activity {
 						break;
 					case PHOTO_NOTE:
 						i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					    //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-					     //       Uri.withAppendedPath(mLocationForPhotos, targetFilename));
+						i.putExtra(MediaStore.EXTRA_OUTPUT,
+								Uri.withAppendedPath(Uri.fromFile(Storage.getNumberDir(this, dirNum)), 
+										System.currentTimeMillis() + ".jpg"));
+
+						Log.i("RRRRRR", "Storage get: " + Storage.getNumberDir(this, dirNum));
+						Log.i("RRRRRR", "Storage URI: " + 
+								Uri.withAppendedPath(Uri.fromFile(Storage.getNumberDir(this, dirNum)), 
+										System.currentTimeMillis() + ".jpg").toString());
+						
 					    if (i.resolveActivity(getPackageManager()) != null)
 					        startActivityForResult(i, 0);
 					    else
@@ -97,10 +153,11 @@ public class MainActivity extends Activity {
 						else
 							Toast.makeText(this, "You can't record voice with this device",Toast.LENGTH_LONG).show();
 						break;
-				}
+				}*/
 			}
 			if (item.getItemId() == CTX_MENU_ACTION_BROWSE)
 			{
+				handleBrowseNotes(dirNum, data.type);
 			}
 	    }
 		catch (ActivityNotFoundException e)
