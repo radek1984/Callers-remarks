@@ -52,28 +52,32 @@ public class MainActivity extends Activity {
 			default:
 				return;
 		}
-		startActivity(intent);
+		if(intent != null)
+			startActivity(intent);
 	}
-	
+
 	private void handleBrowseNotes(String num, ListItemButtonData.ButtonType type)
 	{
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		Uri uri = Uri.fromFile(Storage.getNumberDir(this, num));
+		Intent intent = null;
+		//new Intent(Intent.ACTION_VIEW);
+		//Uri uri = Uri.fromFile(Storage.getNumberDir(this, num));
 		
 		switch(type)
 		{
 			case TXT_NOTE:
-				intent.setData(uri);
-				//intent.setDataAndType(uri, "text/csv");
+				//intent.setData(uri);
+				//intent.setDataAndType(uri, "text/txt");
 				break;
 			case PHOTO_NOTE:
+				intent = new Intent(this, PhotoBrowseActivity.class);
+				intent.putExtra("number", num);
 				break;
 			case VOICE_NOTE:
 				break;
 		}
-		startActivity(Intent.createChooser(intent, ""));
+		startActivity(intent);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,7 +101,7 @@ public class MainActivity extends Activity {
 	{
 		super.onActivityResult(requestCode, resultCode, intent);
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
 	{
@@ -106,8 +110,16 @@ public class MainActivity extends Activity {
 		ListItemButtonData data =  (ListItemButtonData)button.getTag();
 		((CallsListAdapter)callsList.getAdapter()).setCurrent_selection(data);
 		menu.setHeaderTitle("Choose action for " + callsList.getAdapter().getItem(data.listItemposition));
-		menu.add(0, CTX_MENU_ACTION_ADD, 0, "Add " + data.type.toString() + " note");
-		menu.add(0, CTX_MENU_ACTION_BROWSE, 0, "Browse " + data.type.toString() + " notes");
+
+		if(data.type == ListItemButtonData.ButtonType.TXT_NOTE)
+		{
+			menu.add(0, CTX_MENU_ACTION_ADD, 0, "View/Edit " + data.type.toString() + " note");
+		}
+		else
+		{
+			menu.add(0, CTX_MENU_ACTION_ADD, 0, "Add " + data.type.toString() + " note");
+			menu.add(0, CTX_MENU_ACTION_BROWSE, 0, "Browse " + data.type.toString() + " notes");
+		}
 	}
 
 	@Override

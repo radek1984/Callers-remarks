@@ -4,5 +4,6 @@
     <string name="app_name">Callers Remarks</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_take_photo">TakePhotoActivity</string>
+    <string name="title_activity_photo_browse">PhotoBrowseActivity</string>
 
 </resources>

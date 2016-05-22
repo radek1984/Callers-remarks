@@ -1,9 +1,11 @@
 package com.kintop.radek.callersremarks;
 
-import java.io.BufferedWriter;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
+import java.io.FilenameFilter;
 
 import android.content.Context;
 import android.util.Log;
@@ -50,7 +52,39 @@ public class Storage {
 		
 		return true;
 	}
+
+	public static byte [] loadFile(Context ctx, String dirNumber, String fileNote)
+	{
+		byte [] buff = null;
+		File dir = new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber);
+		try
+		{
+			File input = new File(dir, fileNote);
+			buff = new byte[(int)input.length()];
+			FileInputStream ifs = new FileInputStream(input);
+			ifs.read(buff);
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+		return buff;
+	}
 	
+	public static String [] getFilesListForNumber(Context ctx, String dirNumber, final String extension)
+	{
+		File dir = new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber);
+		FilenameFilter filter = new FilenameFilter()
+									{
+										public boolean accept(File dir, String name)
+										{
+											return name.endsWith("." + extension);
+										}
+									};
+
+		return dir.list(filter);
+	}
+
 	public static void listDir(Context ctx, String dirNumber)
 	{
 		File dir = new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber);
