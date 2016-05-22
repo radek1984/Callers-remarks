@@ -17,7 +17,7 @@ public class PhotoBrowseActivity extends Activity
 	String [] list = null;
 	String number;
 	int ix = 0;
-	
+
 	private void displayImage(byte arr[])
 	{
 		if(arr == null)
@@ -26,13 +26,13 @@ public class PhotoBrowseActivity extends Activity
 		iv.setScaleType(ScaleType.CENTER_CROP);
 		iv.setImageBitmap(BitmapFactory.decodeByteArray(arr, 0, arr.length));
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_browse);
-		
+
 		Intent i = getIntent();
 		number = i.getExtras().getString("number");
 		iv = (ImageView)findViewById(R.id.imageView_Photo);
@@ -43,7 +43,6 @@ public class PhotoBrowseActivity extends Activity
     				"No files for  " + number, Toast.LENGTH_LONG).show();
 		else
 			onNextPhotoButtonClick(null);
-		
 	}
 
 	public void onNextPhotoButtonClick(View v)

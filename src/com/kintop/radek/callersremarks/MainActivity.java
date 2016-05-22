@@ -42,6 +42,8 @@ public class MainActivity extends Activity {
 		switch(type)
 		{
 			case TXT_NOTE:
+				intent = new Intent(this, TextNoteEditActivity.class);
+				intent.putExtra("number", num);
 				break;
 			case PHOTO_NOTE:
 				intent = new Intent(this, TakePhotoActivity.class);
@@ -65,8 +67,6 @@ public class MainActivity extends Activity {
 		switch(type)
 		{
 			case TXT_NOTE:
-				//intent.setData(uri);
-				//intent.setDataAndType(uri, "text/txt");
 				break;
 			case PHOTO_NOTE:
 				intent = new Intent(this, PhotoBrowseActivity.class);
@@ -113,7 +113,9 @@ public class MainActivity extends Activity {
 
 		if(data.type == ListItemButtonData.ButtonType.TXT_NOTE)
 		{
-			menu.add(0, CTX_MENU_ACTION_ADD, 0, "View/Edit " + data.type.toString() + " note");
+			handleAddNote((String)callsList.getAdapter().getItem(data.listItemposition),
+							data.type);
+			//menu.add(0, CTX_MENU_ACTION_ADD, 0, "View/Edit " + data.type.toString() + " note");
 		}
 		else
 		{

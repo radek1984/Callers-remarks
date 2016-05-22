@@ -41,6 +41,10 @@
             android:name=".PhotoBrowseActivity"
             android:label="@string/title_activity_photo_browse" >
         </activity>
+        <activity
+            android:name=".TextNoteEditActivity"
+            android:label="@string/title_activity_text_note_edit" >
+        </activity>
     </application>
 
 </manifest>

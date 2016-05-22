@@ -37,9 +37,11 @@ public class Storage {
 			}
 		}
 
+		FileOutputStream ofs = null;
 		try
 		{
-			FileOutputStream ofs = new FileOutputStream(dir.getAbsolutePath() + File.separator + fileNote);
+			ofs = new FileOutputStream(dir.getAbsolutePath() + File.separator + fileNote,
+							false);
 			ofs.write(content);
 			ofs.close();
 		}

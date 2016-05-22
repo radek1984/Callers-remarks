@@ -3,7 +3,8 @@
 
     <string name="app_name">Callers Remarks</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_take_photo">TakePhotoActivity</string>
-    <string name="title_activity_photo_browse">PhotoBrowseActivity</string>
+    <string name="title_activity_take_photo">Take a photo</string>
+    <string name="title_activity_photo_browse">Photo browser</string>
+    <string name="title_activity_text_note_edit">Text note edit</string>
 
 </resources>
