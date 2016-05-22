@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ff000000"
     tools:context="${relativePackage}.${activityClass}" >
 
     <ImageView
         android:id="@+id/imageView_Photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:background="#ff000000" />
 
     <Button
         android:id="@+id/button_next_note"
@@ -17,6 +19,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="onNextPhotoButtonClick"
-        android:text="Next note" />
+        android:text="Next note"
+        android:textColor="#ffff0000" />
 
 </RelativeLayout>

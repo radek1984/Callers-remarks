@@ -245,7 +245,7 @@ class CallsListAdapter<T> extends  BaseAdapter
 		button = (ImageButton)vi.findViewById(R.id.imageButton_browse_voice);
 		button.setTag(new ListItemButtonData(ListItemButtonData.ButtonType.VOICE_NOTE, position));
 		act.registerForContextMenu(button);
-
+		
 		return vi;
 	}
 

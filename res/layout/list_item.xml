@@ -2,18 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itam_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="#000000"
+    android:gravity="center" >
 
     <TextView
         android:id="@+id/textView_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageButton_browse_txt"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/imageButton_browse_voice"
+        android:layout_centerHorizontal="true"
         android:minHeight="40dp"
         android:text="txt"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffffff" />
+
+    <ImageButton
+        android:id="@+id/imageButton_browse_txt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView_number"
+        android:layout_marginLeft="20dp"
+        android:onClick="onNoteButtonClick"
+        android:scaleType="fitXY"
+        android:src="@drawable/txt_note" />
+
+    <ImageButton
+        android:id="@+id/imageButton_call"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView_number"
+        android:layout_marginRight="20dp"
+        android:onClick="onCallButtonClick"
+        android:scaleType="fitXY"
+        android:src="@drawable/call" />
 
     <ImageButton
         android:id="@+id/imageButton_browse_voice"
@@ -27,36 +51,14 @@
         android:src="@drawable/voice_note" />
 
     <ImageButton
-        android:id="@+id/imageButton_call"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/imageButton_browse_voice"
-        android:layout_marginRight="17dp"
-        android:onClick="onCallButtonClick"
-        android:scaleType="fitXY"
-        android:src="@drawable/call" />
-
-    <ImageButton
         android:id="@+id/imageButton_browse_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignTop="@+id/imageButton_browse_voice"
-        android:layout_marginRight="30dp"
-        android:layout_toLeftOf="@+id/imageButton_browse_voice"
+        android:layout_below="@+id/textView_number"
+        android:layout_marginLeft="26dp"
+        android:layout_toRightOf="@+id/imageButton_browse_txt"
         android:onClick="onNoteButtonClick"
         android:scaleType="fitXY"
         android:src="@drawable/photo_note" />
-
-    <ImageButton
-        android:id="@+id/imageButton_browse_txt"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignTop="@+id/imageButton_browse_photo"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/imageButton_browse_photo"
-        android:onClick="onNoteButtonClick"
-        android:scaleType="fitXY"
-        android:src="@drawable/txt_note" />
 
 </RelativeLayout>
