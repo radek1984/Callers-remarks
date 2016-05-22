@@ -1,8 +1,6 @@
 package com.kintop.radek.callersremarks;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -17,6 +15,11 @@ public class Storage {
 		return new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber);
 	}
 
+	static String getNumberDir(Context ctx, String dirNumber, String fname)
+	{
+		return getNumberDir(ctx, dirNumber).getAbsolutePath() + File.separator + fname;
+	}
+	
 	static boolean saveFile(Context ctx, String dirNumber, String fileNote, byte []content)
 	{
 		boolean res = false; 
@@ -65,6 +68,7 @@ public class Storage {
 			buff = new byte[(int)input.length()];
 			FileInputStream ifs = new FileInputStream(input);
 			ifs.read(buff);
+			ifs.close();
 		}
 		catch(Exception e)
 		{

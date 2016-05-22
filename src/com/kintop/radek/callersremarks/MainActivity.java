@@ -43,18 +43,18 @@ public class MainActivity extends Activity {
 		{
 			case TXT_NOTE:
 				intent = new Intent(this, TextNoteEditActivity.class);
-				intent.putExtra("number", num);
 				break;
 			case PHOTO_NOTE:
 				intent = new Intent(this, TakePhotoActivity.class);
-				intent.putExtra("number", num);
 				break;
 			case VOICE_NOTE:
+				intent = new Intent(this, RecordVoiceActivity.class);
 				break;
 			default:
 				return;
 		}
 		if(intent != null)
+			intent.putExtra("number", num);
 			startActivity(intent);
 	}
 
@@ -70,12 +70,16 @@ public class MainActivity extends Activity {
 				break;
 			case PHOTO_NOTE:
 				intent = new Intent(this, PhotoBrowseActivity.class);
-				intent.putExtra("number", num);
 				break;
 			case VOICE_NOTE:
+				intent = new Intent(this, VoiceBrowseActivity.class);
 				break;
 		}
-		startActivity(intent);
+		if(intent != null)
+		{
+			intent.putExtra("number", num);
+			startActivity(intent);
+		}
 	}
 
 	@Override

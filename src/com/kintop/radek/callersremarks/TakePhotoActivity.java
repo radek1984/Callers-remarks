@@ -41,7 +41,7 @@ public class TakePhotoActivity extends Activity {
         Intent i = getIntent();
         Bundle b = i.getExtras();
         number = (String)b.get("number");
-        
+
         if(camHandle != null)
         {
         	Parameters params = camHandle.getParameters();
