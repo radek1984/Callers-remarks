@@ -1,5 +1,7 @@
 package com.kintop.radek.callersremarks;
 
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaRecorder;
@@ -16,7 +18,7 @@ public class RecordVoiceActivity extends Activity
 	private MediaRecorder mr = null;
 	private String number = null;
 	private boolean recording = false;
-	Button bt = null;
+	private Button bt = null;
 
 	private void stopRecorder()
 	{
@@ -89,6 +91,9 @@ public class RecordVoiceActivity extends Activity
 	{
 		stopRecorder();
 		bt.setText("Record");
+		if(what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED)
+			Toast.makeText(this,
+					"Time up", Toast.LENGTH_LONG).show();
 	}
 
 	@Override

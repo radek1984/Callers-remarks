@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -15,14 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.net.Uri;
 
 public class MainActivity extends Activity {
 
@@ -30,7 +25,7 @@ public class MainActivity extends Activity {
 	private final int CTX_MENU_ACTION_BROWSE = 1;
 	ListView callsList = null;
 
-	private void populateList(String[] numbers)
+	private void populateList(CallsManager.CallId[] numbers)
 	{
 		CallsListAdapter cla = new CallsListAdapter(this, numbers);
 		callsList.setAdapter(cla);
@@ -54,16 +49,16 @@ public class MainActivity extends Activity {
 				return;
 		}
 		if(intent != null)
+		{
 			intent.putExtra("number", num);
 			startActivity(intent);
+		}
 	}
 
 	private void handleBrowseNotes(String num, ListItemButtonData.ButtonType type)
 	{
 		Intent intent = null;
-		//new Intent(Intent.ACTION_VIEW);
-		//Uri uri = Uri.fromFile(Storage.getNumberDir(this, num));
-		
+
 		switch(type)
 		{
 			case TXT_NOTE:
@@ -83,27 +78,19 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		callsList = (ListView)findViewById(R.id.frame_layout_cam);
 
-		String[] nums = CallsManager.getCallers(getApplicationContext());
+		CallsManager.CallId[] nums = CallsManager.getCallers(getApplicationContext());
 
 		if(nums != null)
 			populateList(nums);
 		else
 			Toast.makeText(this, "Could not find any connections", Toast.LENGTH_LONG).show();
-		
-		//Storage.saveFile(this, "+48513289086","xxx.txt", new byte[]{(byte)123});
-		//Storage.listDir(this, "+48513289086");
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent intent)
-	{
-		super.onActivityResult(requestCode, resultCode, intent);
 	}
 
 	@Override
@@ -113,13 +100,15 @@ public class MainActivity extends Activity {
 		ImageButton button = (ImageButton)v;
 		ListItemButtonData data =  (ListItemButtonData)button.getTag();
 		((CallsListAdapter)callsList.getAdapter()).setCurrent_selection(data);
-		menu.setHeaderTitle("Choose action for " + callsList.getAdapter().getItem(data.listItemposition));
+		
+		String num =
+			((CallsManager.CallId)(callsList.getAdapter().getItem(data.listItemposition))).number;
+
+		menu.setHeaderTitle("Choose action for " + num);
 
 		if(data.type == ListItemButtonData.ButtonType.TXT_NOTE)
 		{
-			handleAddNote((String)callsList.getAdapter().getItem(data.listItemposition),
-							data.type);
-			//menu.add(0, CTX_MENU_ACTION_ADD, 0, "View/Edit " + data.type.toString() + " note");
+			handleAddNote(num, data.type);
 		}
 		else
 		{
@@ -132,8 +121,9 @@ public class MainActivity extends Activity {
 	public boolean onContextItemSelected(MenuItem item)
 	{
 		ListItemButtonData data = ((CallsListAdapter)callsList.getAdapter()).getCurrent_selection();
-		String dirNum = (String)callsList.getAdapter().getItem(data.listItemposition);
-	    Intent i = null;
+		String dirNum = 
+				((CallsManager.CallId)(callsList.getAdapter().getItem(data.listItemposition))).number;
+	    //Intent i = null;
 
 	    try
 	    {
@@ -200,10 +190,10 @@ public class MainActivity extends Activity {
 	}
 }
 
-class CallsListAdapter<T> extends  BaseAdapter
+class CallsListAdapter extends BaseAdapter
 {
 	Activity act;
-	T[] values;
+	CallsManager.CallId[] values;
 	ListItemButtonData current_selection;
 	public ListItemButtonData getCurrent_selection() {
 		return current_selection;
@@ -213,7 +203,7 @@ class CallsListAdapter<T> extends  BaseAdapter
 		this.current_selection = current_selection;
 	}
 
-	CallsListAdapter(Activity a, T[] arr)
+	CallsListAdapter(Activity a, CallsManager.CallId[] arr)
 	{
 		values = arr;
 		act = a;
@@ -229,10 +219,22 @@ class CallsListAdapter<T> extends  BaseAdapter
 		if (vi == null)
 			vi = inflater.inflate(R.layout.list_item, null);
 		TextView textview = (TextView) vi.findViewById(R.id.textView_number);
-		textview.setText((String)values[position]);
+		textview.setText(values[position].number);
+
+		textview = (TextView) vi.findViewById(R.id.textView_cintact_name);
+		if(values[position].name != null)
+		{
+			textview.setText(values[position].name);
+			textview.setTextColor(0xffffffff);
+		}
+		else
+		{
+			textview.setText("Not in contacts");
+			textview.setTextColor(0xffff0000);
+		}
 
 		ImageButton button = (ImageButton)vi.findViewById(R.id.imageButton_call);
-		button.setTag(new String((String)values[position]));
+		button.setTag(new String(values[position].number));
 
 		button = (ImageButton)vi.findViewById(R.id.imageButton_browse_txt);
 		button.setTag(new ListItemButtonData(ListItemButtonData.ButtonType.TXT_NOTE, position));
@@ -251,19 +253,16 @@ class CallsListAdapter<T> extends  BaseAdapter
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return values.length;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return values[position];
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 }
