@@ -233,6 +233,22 @@ class CallsListAdapter extends BaseAdapter
 			textview.setTextColor(0xffff0000);
 		}
 
+		textview = (TextView) vi.findViewById(R.id.photo_count1);
+		int count = Storage.getFilesCountForNumber(act, values[position].number, "jpg");
+		
+		if(count <= 0)
+			textview.setText("");
+		else
+			textview.setText("" + count);
+
+		textview = (TextView) vi.findViewById(R.id.voise_count1);
+		count = Storage.getFilesCountForNumber(act, values[position].number, "3gp");
+
+		if(count <= 0)
+			textview.setText("");
+		else
+			textview.setText("" + count);
+
 		ImageButton button = (ImageButton)vi.findViewById(R.id.imageButton_call);
 		button.setTag(new String(values[position].number));
 

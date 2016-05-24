@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class InOutCallActivity extends Activity {
@@ -34,7 +32,7 @@ public class InOutCallActivity extends Activity {
 		else
 			tv.setText("");
 
-		TextView et = (TextView)findViewById(R.id.textView1);
+		TextView et = (TextView)findViewById(R.id.photo_count1);
 		byte [] arr = Storage.loadFile(this, number, "txtnote.txt");
 		if(arr != null)
 		{

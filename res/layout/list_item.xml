@@ -73,4 +73,26 @@
         android:scaleType="fitXY"
         android:src="@drawable/photo_note" />
 
+    <TextView
+        android:id="@+id/voise_count1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageButton_browse_voice"
+        android:layout_below="@+id/imageButton_browse_voice"
+        android:layout_marginLeft="20dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ff00ff00" />
+
+    <TextView
+        android:id="@+id/photo_count1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageButton_browse_photo"
+        android:layout_below="@+id/imageButton_browse_photo"
+        android:layout_marginRight="19dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ff00ff00" />
+
 </RelativeLayout>
