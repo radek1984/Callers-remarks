@@ -38,7 +38,7 @@ public class CallsManager
 		}
 	}
 	//lista osob dzwoniacych do nas i do tych do ktorych dzwonilismy:
-	public static CallId[] getCallers(Context ctx)
+	public static CallId[] getCallers(Context ctx, boolean filter_out_contacts)
 	{
 		Set<CallId> phones_nums = new HashSet<CallId>();
 
@@ -62,6 +62,10 @@ public class CallsManager
 				String snum = cur.getString(index);
 				index = cur.getColumnIndex(CallLog.Calls.CACHED_NAME);
 				String sname = cur.getString(index);
+
+				if(filter_out_contacts && sname!=null)
+					continue;
+
 				CallId id = new CallId();
 				id.number = snum;
 				id.name = sname;

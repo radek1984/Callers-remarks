@@ -10,6 +10,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class MainActivity extends Activity {
 	private final int CTX_MENU_ACTION_ADD = 0;
 	private final int CTX_MENU_ACTION_BROWSE = 1;
 	ListView callsList = null;
-
+	Menu menu = null;
 	private void populateList(CallsManager.CallId[] numbers)
 	{
 		CallsListAdapter cla = new CallsListAdapter(this, numbers);
@@ -78,6 +79,43 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		this.menu = menu;
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_menu, menu);
+	    menu.getItem(1).setVisible(false);
+	    return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		CallsManager.CallId[] nums = null;
+	    switch (item.getItemId())
+	    {
+	        case R.id.menu_item_no_filter:
+	        	menu.getItem(0).setVisible(true);
+	    		nums = CallsManager.getCallers(getApplicationContext(), false);
+	        	break;
+	        case R.id.menu_item_filter:
+	        	menu.getItem(1).setVisible(true);
+	    		nums = CallsManager.getCallers(getApplicationContext(), true);
+	        	break;
+	    }
+
+		if(nums != null)
+		{
+			populateList(nums);
+		    item.setVisible(false);
+		}
+		else
+			Toast.makeText(this, "Could not find any connections", Toast.LENGTH_LONG).show();
+
+	    return true;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -85,7 +123,7 @@ public class MainActivity extends Activity {
 
 		callsList = (ListView)findViewById(R.id.frame_layout_cam);
 
-		CallsManager.CallId[] nums = CallsManager.getCallers(getApplicationContext());
+		CallsManager.CallId[] nums = CallsManager.getCallers(getApplicationContext(), false);
 
 		if(nums != null)
 			populateList(nums);
