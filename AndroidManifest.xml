@@ -19,6 +19,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -53,6 +54,21 @@
         <activity
             android:name=".VoiceBrowseActivity"
             android:label="@string/title_activity_voice_browse" >
+        </activity>
+
+        <receiver
+            android:name=".IncomingCallReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter android:priority="-1" >
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".InOutCallActivity"
+            android:label="@string/title_activity_in_out_call" 
+            android:theme="@style/InOutCallStyle">
         </activity>
     </application>
 

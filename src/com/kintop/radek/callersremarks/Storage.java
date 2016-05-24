@@ -91,6 +91,14 @@ public class Storage {
 		return dir.list(filter);
 	}
 
+	public static int getFilesCountForNumber(Context ctx, String dirNumber, final String extension)
+	{
+		String[] list = getFilesListForNumber(ctx, dirNumber, extension);
+		if(list == null)
+			return 0;
+		return list.length;
+	}
+	
 	public static void listDir(Context ctx, String dirNumber)
 	{
 		File dir = new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber);

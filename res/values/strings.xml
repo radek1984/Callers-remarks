@@ -8,5 +8,6 @@
     <string name="title_activity_text_note_edit">Text note edit</string>
     <string name="title_activity_record_voice">Record voice note</string>
     <string name="title_activity_voice_browse">Browse voice notes</string>
+    <string name="title_activity_in_out_call">Call activity</string>
 
 </resources>
