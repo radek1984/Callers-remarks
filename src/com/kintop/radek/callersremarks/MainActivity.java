@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
 	private final int CTX_MENU_ACTION_BROWSE = 1;
 	ListView callsList = null;
 	Menu menu = null;
+
 	private void populateList(CallsManager.CallId[] numbers)
 	{
 		CallsListAdapter cla = new CallsListAdapter(this, numbers);
@@ -52,7 +53,7 @@ public class MainActivity extends Activity {
 		if(intent != null)
 		{
 			intent.putExtra("number", num);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		}
 	}
 
@@ -154,6 +155,15 @@ public class MainActivity extends Activity {
 			menu.add(0, CTX_MENU_ACTION_BROWSE, 0, "Browse " + data.type.toString() + " notes");
 		}
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		ListItemButtonData sel =
+				((CallsListAdapter)callsList.getAdapter()).getCurrent_selection();
+
+		callsList.invalidateViews();
+	};
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item)
