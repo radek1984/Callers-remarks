@@ -31,6 +31,24 @@ public class Storage {
 		return file.delete();
 	}
 
+	static void createDirIfNotExists(Context ctx, String dirNumber)
+	{
+		File dir = getNumberDir(ctx, dirNumber);
+
+		if(!dir.exists())
+		{
+			boolean res = dir.mkdir();
+			if(res)
+			{
+				Log.i("RRRRRR", "Dairectory "+dir.getAbsolutePath() +" created");
+			}
+			else
+			{
+				Log.e("RRRRRR", "Dairectory "+dir.getAbsolutePath() +" NOT created");
+			}
+		}
+	}
+	
 	static boolean saveFile(Context ctx, String dirNumber, String fileNote, byte []content)
 	{
 		boolean res = false; 

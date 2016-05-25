@@ -34,6 +34,7 @@ public class RecordVoiceActivity extends Activity
 		mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 		String fname = Storage.getNumberDir(this, number,
 				System.currentTimeMillis() + ".3gp");
+		Storage.createDirIfNotExists(this, number);
 		mr.setOutputFile(fname);
 		mr.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mr.setMaxDuration(5*60*1000); 
@@ -44,6 +45,7 @@ public class RecordVoiceActivity extends Activity
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			Toast.makeText(this,
 				"Could not initialise recorder ", Toast.LENGTH_LONG).show();
 			return false;
