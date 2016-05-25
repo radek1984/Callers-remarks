@@ -19,7 +19,18 @@ public class Storage {
 	{
 		return getNumberDir(ctx, dirNumber).getAbsolutePath() + File.separator + fname;
 	}
-	
+
+	static boolean deleteFile(Context ctx, String dirNumber, String fileNote)
+	{
+		File file = new File(ctx.getFilesDir().getAbsolutePath() + File.separator + dirNumber
+								+ File.separator + fileNote);	
+
+		if(!file.exists())
+			return false;
+		
+		return file.delete();
+	}
+
 	static boolean saveFile(Context ctx, String dirNumber, String fileNote, byte []content)
 	{
 		boolean res = false; 

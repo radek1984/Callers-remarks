@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 		if(intent != null)
 		{
 			intent.putExtra("number", num);
-			startActivity(intent);
+			startActivityForResult(intent, 0);
 		}
 	}
 

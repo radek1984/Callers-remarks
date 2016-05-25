@@ -22,4 +22,15 @@
         android:text="Next note"
         android:textColor="#ffff0000" />
 
+    <Button
+        android:id="@+id/button_delete_photo"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onDeletePhotoButtonClick"
+        android:text="X"
+        android:textColor="#ffff0000" />
+
 </RelativeLayout>
